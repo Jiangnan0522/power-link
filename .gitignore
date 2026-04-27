@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# uv / virtualenvs
+.venv/
+venv/
+
+# Pretrained checkpoints + explanations (re-trainable, not committed)
+saved_models/
+saved_models_before/
+saved_explanations/
+saved_explanations_experiment/
+analysis.json
+
+# Logs / job stderr
+logs/
+logs_evaluation/
+logs_explain/
+*.log
+*.err
+
+# Model checkpoints (regenerate via pretrain.py)
+*.pt
+*.pth
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+__MACOSX/
+
+# Internal AI-tooling notes (kept local, not part of the public artefact)
+doc_for_claude_memory/
+
+# Pytest
+.pytest_cache/
+.coverage

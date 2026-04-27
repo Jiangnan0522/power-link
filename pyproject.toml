@@ -1,0 +1,49 @@
+[project]
+name = "power-link"
+version = "0.1.0"
+description = "Path-based explainer for GNN-based knowledge-graph completion (KDD '24)"
+readme = "README.md"
+requires-python = ">=3.9,<3.11"
+license = { file = "LICENSE" }
+authors = [
+    { name = "Heng Chang" },
+    { name = "Jiangnan Ye" },
+    { name = "Alejo Lopez-Avila" },
+    { name = "Jinhua Du" },
+    { name = "Jia Li" },
+]
+dependencies = [
+    # NB: torch and dgl ship CPU+CUDA build variants and need an --extra-index-url.
+    # Install them separately per the README. The paper used torch 1.12.1+cu102
+    # with dgl 0.9.1; for newer GPUs (A100 / sm_80+) install torch 1.12.1+cu113
+    # with dgl 1.0.0+cu113 — both are tested and the explainer handles the API
+    # difference in ``g.adj()``.
+    "torch>=1.12,<2",
+    "dgl>=0.9,<1.2",
+    "numpy>=1.23,<2",
+    "scipy>=1.9,<2",
+    "scikit-learn>=1.1",
+    "networkx>=2.8",
+    "matplotlib>=3.5",
+    "tqdm>=4.64",
+    "pyyaml>=6",
+    "pandas",
+    "rdflib",
+    "pytz",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7",
+    "pytest-cov",
+]
+
+[tool.uv]
+package = false  # this is a research artefact, not a publishable library
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["power_link", "power_link.kge", "power_link.utils"]
