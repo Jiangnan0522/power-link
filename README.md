@@ -5,19 +5,6 @@ This is an official re-implementation of the paper:
 > *Heng Chang, Jiangnan Ye, Alejo Lopez-Avila, Jinhua Du, Jia Li.*
 > [arXiv:2401.02290](https://arxiv.org/abs/2401.02290).
 
-## Why Power-Link
-
-Given a trained GNN-based knowledge-graph-completion (KGC) model and a query
-triplet ⟨ĥ, r̂, t̂⟩ that the model believes, Power-Link finds a small set of
-multi-hop paths from ĥ to t̂ that explain *why* the model believes the query.
-
-Compared to PaGE-Link (the closest prior path-based explainer for link
-prediction), Power-Link replaces the per-iteration shortest-path search inside
-the training loop with a **sparse row × adjacency-matrix powering** trick that
-runs entirely on GPU. In practice this is ~3.4× faster per graph, uses less
-GPU memory, and yields better fidelity and human-eval scores on FB15k-237 and
-WN18RR (paper Tables 2 and 3).
-
 The algorithmic core lives in
 [`power_link/explainer.py:powerlink_path_loss`](power_link/explainer.py) —
 about 100 lines of sparse-tensor manipulation. See
