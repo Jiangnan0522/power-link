@@ -71,7 +71,7 @@ Drop the `+cuXXX` suffix and the extra index URL: `pip install torch==1.12.1`
 and `pip install dgl==0.9.1`. Useful for running tests or working with toy
 graphs; pretraining FB15k-237 / WN18RR on CPU is impractical.
 
-## Quick reproduce (one combo end-to-end)
+## Quick and simple reproduce
 
 ```bash
 # 1. Pretrain CompGCN+TransE on FB15k-237 (~4 hours on a single A100).
