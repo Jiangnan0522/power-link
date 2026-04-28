@@ -144,7 +144,8 @@ def main():
 
     start_total = time.time()
     use_pagelink_loss = (args.path_loss == 'pagelink')
-    for i in tqdm(range(subj.shape[0])):
+    pbar = tqdm(range(subj.shape[0]))
+    for i in pbar:
         i_subj, i_rel, i_obj = subj[i], rel[i], obj[i]
 
         if not explainable_pred(model, i_subj, i_rel, i_obj, mp_g, args.hit1, args.hit3):
@@ -197,6 +198,10 @@ def main():
         })
 
         num_explained += 1
+        if args.max_num_samples >= 0:
+            pbar.set_postfix_str(f'explained={num_explained}/{args.max_num_samples}')
+        else:
+            pbar.set_postfix_str(f'explained={num_explained}')
         if args.max_num_samples >= 0 and num_explained >= args.max_num_samples:
             break
 

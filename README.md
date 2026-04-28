@@ -91,7 +91,7 @@ graphs; pretraining FB15k-237 / WN18RR on CPU is impractical.
 ```bash
 # 1. Pretrain CompGCN+TransE on FB15k-237 (~4 hours on a single A100).
 python pretrain.py --score_func transe --opn mult --gpu 0 --gamma 9 \
-    --hid_drop 0.2 --init_dim 200 --epoch 500 --batch 256 --n_layer 1 \
+    --hid_drop 0.2 --init_dim 200 --epoch 500 --batch 256 --n_layer 2 \
     --encoder compgcn --data fb15k237
 
 # 2. Run the explainer over saved test triplets.

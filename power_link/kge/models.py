@@ -11,7 +11,9 @@ class GCNs(nn.Module):
                  conv_bias=True, gcn_drop=0., opn='mult', wni=False, wsi=False, encoder='compgcn', use_bn=True, ltr=True):
         super(GCNs, self).__init__()
         self.act = torch.tanh
-        self.loss = nn.BCELoss()
+        # BCEWithLogitsLoss expects raw logits; the score_all() pretraining path
+        # returns logits, while forward() keeps sigmoid for the explainer.
+        self.loss = nn.BCEWithLogitsLoss()
         self.num_ent, self.num_rel, self.num_base = num_ent, num_rel, num_base
         self.init_dim, self.gcn_dim, self.embed_dim = init_dim, gcn_dim, embed_dim
         self.conv_bias = conv_bias
@@ -148,12 +150,16 @@ class GCN_TransE(GCNs):
             return score
 
     def score_all(self, g, subj, rel):
-        """Pretraining-style call: score (subj, rel) against every entity. Shape ``[B, num_ent]``."""
+        """Pretraining-style call: score (subj, rel) against every entity. Shape ``[B, num_ent]``.
+
+        Returns raw logits (no sigmoid) for use with ``BCEWithLogitsLoss``.
+        Ranking via ``argsort`` is unchanged because sigmoid is monotonic.
+        """
         sub_emb, rel_emb, _, node_embds, _ = self.forward_base(g, subj, rel,
                                                                drop1=self.drop, drop2=self.drop)
         dest_obj_emb = sub_emb + rel_emb
         x_all = self.gamma - torch.norm(dest_obj_emb.unsqueeze(1) - node_embds, p=1, dim=2)
-        return torch.sigmoid(x_all)
+        return x_all
 
 
 class GCN_DistMult(GCNs):
@@ -180,12 +186,15 @@ class GCN_DistMult(GCNs):
             return score
 
     def score_all(self, g, subj, rel):
-        """Pretraining-style call: score (subj, rel) against every entity. Shape ``[B, num_ent]``."""
+        """Pretraining-style call: score (subj, rel) against every entity. Shape ``[B, num_ent]``.
+
+        Returns raw logits (no sigmoid) for use with ``BCEWithLogitsLoss``.
+        """
         sub_emb, rel_emb, _, node_embds, _ = self.forward_base(g, subj, rel,
                                                                drop1=self.drop, drop2=self.drop)
         dest_obj_emb = sub_emb * rel_emb
         x_all = torch.mm(dest_obj_emb, node_embds.transpose(1, 0))
-        return torch.sigmoid(x_all)
+        return x_all
 
 
 class GCN_ConvE(GCNs):
@@ -290,10 +299,13 @@ class GCN_ConvE(GCNs):
             return score
 
     def score_all(self, g, subj, rel):
-        """Pretraining-style call: score (subj, rel) against every entity. Shape ``[B, num_ent]``."""
+        """Pretraining-style call: score (subj, rel) against every entity. Shape ``[B, num_ent]``.
+
+        Returns raw logits (no sigmoid) for use with ``BCEWithLogitsLoss``.
+        """
         sub_emb, rel_emb, _, node_embds, _ = self.forward_base(g, subj, rel,
                                                                drop1=self.drop, drop2=self.drop)
         x = self._conve_features(sub_emb, rel_emb)
         x_all = torch.mm(x, node_embds.transpose(1, 0))
-        return torch.sigmoid(x_all)
+        return x_all
 
