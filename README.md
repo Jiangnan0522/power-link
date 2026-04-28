@@ -36,6 +36,7 @@ We use [uv](https://docs.astral.sh/uv/) for dependency management. PyTorch and
 DGL ship CPU + CUDA build variants and need to be installed against the GPU
 toolkit available on your system.
 
+First, install the hardware-invariant dependencies via `uv`.
 ```bash
 # 1. Clone & set up the env (Python 3.9 or 3.10).
 uv sync
