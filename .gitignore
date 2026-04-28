@@ -37,6 +37,7 @@ __MACOSX/
 
 # Internal AI-tooling notes (kept local, not part of the public artefact)
 doc_for_claude_memory/
+CLAUDE.md
 
 # Pytest
 .pytest_cache/
