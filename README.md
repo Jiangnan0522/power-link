@@ -1,7 +1,5 @@
 # Power-Link
-
-Path-based explainer for GNN-based knowledge-graph completion. Reference
-implementation for
+This is an official re-implementation of the paper:
 
 > **Path-based Explanation for Knowledge Graph Completion** (KDD '24)
 > *Heng Chang, Jiangnan Ye, Alejo Lopez-Avila, Jinhua Du, Jia Li.*
@@ -56,7 +54,7 @@ toolkit available on your system.
 uv sync
 ```
 
-### Pre-Ampere GPUs (V100, P100, RTX 2000-series, etc. — sm ≤ 70)
+### For Pre-Ampere GPUs (V100, P100, RTX 2000-series, etc. — sm ≤ 70)
 
 Use the paper's exact stack:
 
@@ -66,7 +64,7 @@ uv pip install --extra-index-url https://download.pytorch.org/whl/cu102 \
 uv pip install dgl-cu102==0.9.1.post1 -f https://data.dgl.ai/wheels/repo.html
 ```
 
-### Ampere GPUs (A100, A6000, RTX 30-series, etc. — sm 80+)
+### For Ampere GPUs (A100, A6000, RTX 30-series, etc. — sm 80+)
 
 DGL 0.9.1 doesn't ship a wheel for CUDA ≥ 11.x, so we use DGL 1.0.0:
 
@@ -80,7 +78,7 @@ The explainer handles the API difference in `g.adj()` (DGL 0.9.x returns a
 torch sparse tensor, 1.x returns `dgl.sparse.SparseMatrix`) — both stacks
 produce the same numbers.
 
-### CPU-only
+### For CPU-only
 
 Drop the `+cuXXX` suffix and the extra index URL: `pip install torch==1.12.1`
 and `pip install dgl==0.9.1`. Useful for running tests or working with toy
