@@ -122,10 +122,9 @@ trick on a hand-built 5-node graph; the smoke test exercises the full
 ## Acknowledgements
 
 Power-Link builds on the path-based-explanation idea introduced in
-**PaGE-Link** (Zhang et al., WWW '23). The KGE pretraining stack is adapted
+**PaGE-Link**. The KGE pretraining stack is adapted
 from **"Rethinking Graph Convolutional Networks in Knowledge Graph
-Completion"** (Chang et al., CIKM '21,
-[arXiv:2202.05679](https://arxiv.org/abs/2202.05679)). The path-finding code
+Completion"**. The path-finding code
 (bidirectional Dijkstra, Yen's k-shortest paths) is adapted from NetworkX.
 
 ## License
